@@ -49,7 +49,8 @@ ENV ANACONDA_VERSION 2019.03
 ENV ANACONDA_MD5 43caea3d726779843f130a7fb2d380a2
 
 # Create non-root user, install dependencies, install Anaconda
-RUN addgroup -S anaconda -g 1003 && \
+RUN apk add build-base && \
+    addgroup -S anaconda -g 1003 && \
     adduser -D -u 999 anaconda -G anaconda && \
     wget --quiet https://repo.continuum.io/archive/Anaconda3-$ANACONDA_VERSION-Linux-x86_64.sh -O anaconda.sh && \
     echo "${ANACONDA_MD5}  anaconda.sh" > anaconda.md5 && \
