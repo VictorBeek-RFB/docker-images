@@ -49,8 +49,8 @@ ENV ANACONDA_VERSION 2019.03
 ENV ANACONDA_MD5 43caea3d726779843f130a7fb2d380a2
 
 # Create non-root user, install dependencies, install Anaconda
-RUN addgroup -S anaconda && \
-    adduser -D -u 10151 anaconda -G anaconda && \
+RUN addgroup -S anaconda -g 1003 && \
+    adduser -D -u 999 anaconda -G anaconda && \
     wget --quiet https://repo.continuum.io/archive/Anaconda3-$ANACONDA_VERSION-Linux-x86_64.sh -O anaconda.sh && \
     echo "${ANACONDA_MD5}  anaconda.sh" > anaconda.md5 && \
     if [ $(md5sum -c anaconda.md5 | awk '{print $2}') != "OK" ] ; then exit 1; fi && \
@@ -62,7 +62,6 @@ RUN addgroup -S anaconda && \
     echo ". /opt/conda/etc/profile.d/conda.sh" >> /home/anaconda/.profile && \
     echo "conda activate base" >> /home/anaconda/.profile
 
-USER  10151
+USER 999
 ENV PATH "/bin:/sbin:/usr/bin"
-
 CMD [ "sh", "--login", "-i" ]
